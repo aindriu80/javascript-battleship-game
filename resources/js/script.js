@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const infoDisplay = document.querySelector('#info')
   const userSquares = []
   const computerSquares = []
+  let isHorizontal = true
 
   const width = 10
 
@@ -43,28 +44,28 @@ document.addEventListener('DOMContentLoaded', () => {
       name: 'submarine',
       directions: [
         [0, 1, 2],
-        [0, width.width * 2],
+        [0, width, width * 2],
       ],
     },
     {
       name: 'cruiser',
       directions: [
         [0, 1, 2],
-        [0, width.width * 2],
+        [0, width, width * 2],
       ],
     },
     {
       name: 'battleship',
       directions: [
         [0, 1, 2, 3],
-        [0, width.width * 2, width * 3],
+        [0, width, width * 2, width * 3],
       ],
     },
     {
       name: 'carrier',
       directions: [
         [0, 1, 2, 3, 4],
-        [0, width.width * 2, width * 3, width * 4],
+        [0, width, width * 2, width * 3, width * 4],
       ],
     },
   ]
@@ -101,4 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
   generateShipLocation(shipArray[2])
   generateShipLocation(shipArray[3])
   generateShipLocation(shipArray[4])
+
+  // Rotate The Ships
+  function rotate() {
+    destroyer.classList.toggle('destroyer-container-vertical')
+    submarine.classList.toggle('submarine-container-vertical')
+    cruiser.classList.toggle('cruiser-container-vertical')
+    battleship.classList.toggle('battleship-container-vertical')
+    carrier.classList.toggle('carrier-container-vertical')
+  }
+  rotateButton.addEventListener('click', rotate)
 })
