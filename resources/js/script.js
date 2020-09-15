@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const computerSquares = []
   let isHorizontal = true
 
+  let selectedShipNameWithIndex
+  let draggedShip
+  let draggedShipLength
+
   const width = 10
 
   // Create Board
@@ -112,4 +116,54 @@ document.addEventListener('DOMContentLoaded', () => {
     carrier.classList.toggle('carrier-container-vertical')
   }
   rotateButton.addEventListener('click', rotate)
+
+  // move around user ship
+  ships.forEach(((ship) => ship.addEventListener('dragstart'), dragStart))
+  userSquares.forEach((square) =>
+    square.addEventListener('dragstart', dragStart)
+  )
+  userSquares.forEach((square) => square.addEventListener('dragover', dragOver))
+  userSquares.forEach((square) =>
+    square.addEventListener('dragenter', dragEnter)
+  )
+  userSquares.forEach((square) =>
+    square.addEventListener('dragleave', dragLeave)
+  )
+  userSquares.forEach((square) => square.addEventListener('drop', dragDrop))
+  userSquares.forEach((square) => square.addEventListener('dragend', dragEnd))
+
+  ships.forEach((ship) =>
+    ship.addEventListener('mousedown', (e) => {
+      selectedShipNameWithIndex = e.target.id
+      console.log(selectedShipNameWithIndex)
+    })
+  )
+
+  function dragStart() {
+    draggedShip = this
+    draggedShipLength = this.childNodes.length
+    console.log(draggedShip.id)
+  }
+  function dragOver(e) {
+    e.preventDefault()
+  }
+  function dragEnter(e) {
+    e.preventDefault()
+  }
+  function dragLeave() {
+    console.log('drag leave')
+  }
+  function dragDrop() {
+    let shipNameWithLastId = draggedShip.lastChild.id
+    let shipClass = shipNameWithLastId.slice(0, -2)
+    console.log(shipClass)
+    let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))
+    let shipLastId = lastShipIndex + parseInt(this.dataset.id)
+
+    selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))
+    console.log(selectedShipIndex)
+  }
+  function dragEnd(e) {
+    e.preventDefault()
+  }
 })
