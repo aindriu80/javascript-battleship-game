@@ -109,6 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Rotate The Ships
   function rotate() {
+    // if ((isHorizontal = true)) {
+    //   isHorizontal = false
+    // } else {
+    //   isHorizontal = true
+    // }
     destroyer.classList.toggle('destroyer-container-vertical')
     submarine.classList.toggle('submarine-container-vertical')
     cruiser.classList.toggle('cruiser-container-vertical')
@@ -118,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
   rotateButton.addEventListener('click', rotate)
 
   // move around user ship
-  ships.forEach(((ship) => ship.addEventListener('dragstart'), dragStart))
+  ships.forEach((ship) => ship.addEventListener('dragstart', dragStart))
   userSquares.forEach((square) =>
     square.addEventListener('dragstart', dragStart)
   )
@@ -142,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function dragStart() {
     draggedShip = this
     draggedShipLength = this.childNodes.length
-    console.log(draggedShip.id)
+    console.log(draggedShip)
   }
   function dragOver(e) {
     e.preventDefault()
@@ -159,9 +164,28 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(shipClass)
     let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))
     let shipLastId = lastShipIndex + parseInt(this.dataset.id)
+    console.log(shipLastId)
 
     selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))
     console.log(selectedShipIndex)
+
+    shipLastId = shipLastId - selectedShipIndex
+    console.log(shipLastId)
+
+    if (isHorizontal) {
+      for (let i = 0; i < draggedShipLength; i++) {
+        userSquares[
+          parseInt(thisdataset.id) - selectedShipIndex + i
+        ].classList.add('taken', shipClass)
+      }
+    } else if (!isHorizontal) {
+      for (let i = 0; i < draggedShipLength; i++) {
+        userSquares[
+          parseInt(this.datset.id) - selectedShipIndex + width * i
+        ].classList.add('taken', shipClass)
+      }
+    } else return
+    displayGrid.removeChild(draggedShip)
   }
   function dragEnd(e) {
     e.preventDefault()
