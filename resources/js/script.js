@@ -15,6 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const userSquares = []
   const computerSquares = []
   let isHorizontal = true
+  let isGameOver = false
+  let currentPlayer = 'user'
+  let destroyerCount = 0
+  let submarineCount = 0
+  let battleshipCount = 0
+  let carrierCount = 0
+
+  let cpudestroyerCount = 0
+  let cpusubmarineCount = 0
+  let cpubattleshipCount = 0
+  let cpucarrierCount = 0
 
   let selectedShipNameWithIndex
   let draggedShip
@@ -276,9 +287,48 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } else return
     displayGrid.removeChild(draggedShip)
-    // continue on from 1:16:00
   }
   function dragEnd() {
     console.log('dragend')
+  }
+  // The Game Logic
+  function playGame() {
+    if (isGameOver) return
+    if (currentPlayer === 'user') {
+      turnDisplay.innerHTML = 'Your Go!'
+      computerSquares.forEach((square) =>
+        square.addEventListener('click', function (e) {
+          reveal(square)
+        })
+      )
+    }
+    if (currentPlayer === 'computer') {
+      turnDisplay.innerHTML = 'Computers Go!'
+      setTimeout(computerGo, 1000)
+    }
+  }
+  startButton.addEventListener('click', playGame)
+
+  function revealSquare(square) {
+    if (!square.classList.contains('boom')) {
+      if (square.classList.contains('destroyer')) destroyerCount++
+      if (square.classList.contains('submarine')) submarineCount++
+      if (square.classList.contains('crusier')) cruiserCount++
+      if (square.classList.contains('battleship')) battleshipCount++
+      if (square.classList.contains('carrier')) carrierCount++
+    }
+
+    if (square.classList.contains('taken')) {
+      square.classList.add('boom')
+    } else {
+      square.classList.add('miss')
+    }
+    currentPlayer = 'computer'
+  }
+
+  function computerGo() {
+    let random = Math.floor(Math.random() * userSquares.length)
+    if (!userSquares[random].classList.contains('boom')) {
+    }
   }
 })
